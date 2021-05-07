@@ -43,7 +43,8 @@ public class SinglyLinkedList<T> {
         // 获取当前头节点
         LinkNode<T> oldHead = first;
         // 传入头节点进行反转
-        LinkNode<T> newLast = this.reverseM2N(first, m, n);
+//        LinkNode<T> newLast = this.reverseM2N(first, m, n);
+        reverseM2N4Traverse(first, m, n);
     }
 
     public void reverse(int n) {
@@ -113,7 +114,7 @@ public class SinglyLinkedList<T> {
 
 
     /**
-     * 反转前N个节点
+     * 递归反转前N个节点
      * @param head 头节点
      * @param n n
      * @return 最新的头节点
@@ -135,6 +136,11 @@ public class SinglyLinkedList<T> {
         return last;
     }
 
+    /**
+     * 递归反转 m-n 的节点
+     * @param head 头节点
+     * @return 头节点
+     */
     private LinkNode<T> reverseM2N(LinkNode<T> head, int m, int n) {
         // 当m为1时，直接反转前n个节点
         if (m == 1) {
@@ -160,22 +166,152 @@ public class SinglyLinkedList<T> {
 
         LinkNode<T> next = head.next;
         head.next = null;
-        LinkNode<T> nextNext ;
-        while (true) {
+        LinkNode<T> nextNext;
+        LinkNode<T> newHead = null;
+        while (next != null) {
 
             nextNext = next.next;
-            next.next = head;
-
             if (nextNext == null) {
-                break;
+                newHead = next;
             }
+            next.next = head;
             head = next;
             next = nextNext;
+
         }
-        return next;
+
+//        LinkNode<T> next = head.next;
+//        head.next = null;
+//        LinkNode<T> nextNext;
+//        while (true) {
+//
+//            nextNext = next.next;
+//            next.next = head;
+//
+//            if (nextNext == null) {
+//                break;
+//            }
+//            head = next;
+//            next = nextNext;
+//        }
+//        return next;
+        return newHead;
+    }
+
+    /**
+     * 遍历反转链表
+     * @param head 头节点
+     * @return 新的头节点
+     */
+    private LinkNode<T> reverse4Traverse2(LinkNode<T> head) {
+
+        LinkNode<T> pre, cur, nxt;
+        pre = null; cur = head; nxt = head;
+
+        while (cur != null) {
+            // 获取next
+            nxt = cur.next;
+            // 改变当前节点的next指针，指向pre
+            cur.next = pre;
+            // 更新 pre 和 cur 节点
+            pre = cur;
+            cur = nxt;
+
+        }
+        // 返回最新的头节点
+        return pre;
+
+    }
+
+    /**
+     * 遍历反转链表  [a,b) 左开右闭
+     * @param a 头节点
+     * @param b b节点
+     * @return 新的头节点
+     */
+    private LinkNode<T> reverseM2NNode(LinkNode<T> a, LinkNode<T> b) {
+
+        LinkNode<T> pre, cur, nxt;
+        pre = null; cur = a; nxt = a;
+
+        // cur == b 时结束
+        while (cur != b) {
+            // 获取next
+            nxt = cur.next;
+            // 改变当前节点的next指针，指向pre
+            cur.next = pre;
+            // 更新 pre 和 cur 节点
+            pre = cur;
+            cur = nxt;
+        }
+        // 返回最新的头节点
+        return pre;
+
+    }
+
+    /**
+     * 每 k 个节点进行一次反转
+     * @param head 头节点
+     * @param k k
+     * @return 最新的头节点
+     */
+    private LinkNode<T> reverseKGroup(LinkNode<T> head, int k) {
+
+        if (head == null) {
+            return null;
+        }
+        LinkNode<T> a = head, b = head;
+
+        for (int i = 0; i < k; i++) {
+            if (b == null) {
+                return head;
+            }
+            b = b.next;
+        }
+        // 找到 a b，进行反转，返回反转后的头节点
+        LinkNode<T> node = reverseM2NNode(a, b);
+        // 递归，返回下一层的头节点
+        LinkNode<T> tLinkNode = reverseKGroup(b, k);
+        // 将a的next指向头节点
+        a.next = tLinkNode;
+
+        return node;
+    }
+
+    /**
+     * 每 k 个节点进行一次反转
+     */
+    private LinkNode<T> reverseKGroup1(LinkNode<T> head, int k) {
+
+        if (head == null) {
+            return null;
+        }
+        LinkNode<T> b = head;
+
+        for (int i = 0; i < k; i++) {
+            if (b == null) {
+                return head;
+            }
+            b = b.next;
+        }
+        // 找到 a b，进行反转，返回反转后的头节点
+        LinkNode<T> node = reverseM2NNode(head, b);
+        // 递归，返回下一层的头节点
+        LinkNode<T> tLinkNode = reverseKGroup1(b, k);
+        // 将a的next指向头节点
+        head.next = tLinkNode;
+
+        return node;
     }
 
 
+    /**
+     * 遍历反转 m-n 的节点
+     * @param head
+     * @param m
+     * @param n
+     * @return
+     */
     private LinkNode<T> reverseM2N4Traverse(LinkNode<T> head, int m, int n) {
 
         if (m == n) {
@@ -183,11 +319,15 @@ public class SinglyLinkedList<T> {
         }
         LinkNode<T> newHead = head;
         LinkNode<T> mNode = null;
+        LinkNode<T> mNodePre = null;
         LinkNode<T> nNodeNext = null;
         for (int i = 1; i <= n; i++) {
 
             if (m == i) {
                 mNode = newHead;
+            }
+            if (i == m - 1) {
+                mNodePre = newHead;
             }
             if (n == i) {
                 nNodeNext = newHead.next;
@@ -199,17 +339,23 @@ public class SinglyLinkedList<T> {
 
         LinkNode<T> last = reverse4Traverse(mNode);
 
-        mNode.next = last;
+        // m 为1时 mNodePre 是 null
+        if (mNodePre != null) {
+            mNodePre.next = last;
+        } else {
+            // 此时first是last
+            this.first = last;
+        }
 
         LinkNode<T> next = last.next;
-        while (true) {
-            if (next == null) {
+        while (next != null) {
+
+            if (next.next == null) {
                 next.next = nNodeNext;
                 break;
             }
             next = next.next;
         }
-
 
         return head;
     }
@@ -235,6 +381,8 @@ public class SinglyLinkedList<T> {
         int c = 3;
         int d = 4;
         int e = 5;
+        int f = 6;
+        int g = 7;
 
         SinglyLinkedList list = new SinglyLinkedList<Integer>();
         list.add(a);
@@ -242,12 +390,23 @@ public class SinglyLinkedList<T> {
         list.add(c);
         list.add(d);
         list.add(e);
+        list.add(6);
+        list.add(7);
 
-        list.traversal();
+//        list.traversal();
 //        list.reverse();
 //        list.reverse(3);
-        list.reverse(2, 4);
-        list.traversal();
+//        list.reverse(1, 5);
+//        list.traversal();
+
+//        LinkNode linkNode = list.reverseKGroup1(list.getFirst(), 3);
+//
+//
+//        while (linkNode != null) {
+//            System.out.println(linkNode.val);
+//            linkNode = linkNode.next;
+//        }
+
 
     }
 
