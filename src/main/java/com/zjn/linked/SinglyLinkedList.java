@@ -390,8 +390,8 @@ public class SinglyLinkedList<T> {
         list.add(c);
         list.add(d);
         list.add(e);
-        list.add(6);
-        list.add(7);
+        list.add(f);
+        list.add(g);
 
 //        list.traversal();
 //        list.reverse();
@@ -399,13 +399,13 @@ public class SinglyLinkedList<T> {
 //        list.reverse(1, 5);
 //        list.traversal();
 
-//        LinkNode linkNode = list.reverseKGroup1(list.getFirst(), 3);
-//
-//
-//        while (linkNode != null) {
-//            System.out.println(linkNode.val);
-//            linkNode = linkNode.next;
-//        }
+        LinkNode linkNode = list.reverseKGroup1(list.getFirst(), 3);
+
+
+        while (linkNode != null) {
+            System.out.println(linkNode.val);
+            linkNode = linkNode.next;
+        }
 
 
     }
