@@ -59,8 +59,8 @@ public class SubArraySum {
 
 
     public static void main(String[] args) {
-        int[] nums = {1, 3, 5};
-        System.out.println(subarraySum(nums, 3));
+        int[] nums = {0, 0, 1, -1};
+        System.out.println(subarraySum(nums, 0));
 
 //        NumArray numArray = new NumArray(nums);
 //        int i = numArray.sumRange(1, 2);

@@ -8,11 +8,11 @@ import com.zjn.stack.Stack;
 public class MyQueue {
 
     // 两个栈实现队列
-    private Stack s1, s2;
+    private Stack<Integer> s1, s2;
 
     public MyQueue() {
-        s1 = new Stack();
-        s2 = new Stack();
+        s1 = new Stack<Integer>();
+        s2 = new Stack<Integer>();
     }
 
 
@@ -32,8 +32,8 @@ public class MyQueue {
 
     // 返回队头元素
     public int peek() {
-        if (s2.isEmpty()) {
-            while (!s1.isEmpty()) {
+        if (s2.empty()) {
+            while (!s1.empty()) {
                 s2.push(s1.pop());
             }
         }
@@ -43,7 +43,7 @@ public class MyQueue {
 
     // 队列是否为空
     public boolean iSEmpty() {
-        return s1.isEmpty() && s2.isEmpty();
+        return s1.empty() && s2.empty();
     }
 
 

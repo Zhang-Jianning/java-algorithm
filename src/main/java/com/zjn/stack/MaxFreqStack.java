@@ -21,7 +21,7 @@ public class MaxFreqStack {
     private HashMap<Integer, Integer> vf ;
 
     // 频率对应的所有元素   在栈中，并且可以pop出最近添加的元素
-    private HashMap<Integer, Stack> fs;
+    private HashMap<Integer, Stack<Integer>> fs;
 
     // 最大的频次
     private int maxFreq;
@@ -54,7 +54,7 @@ public class MaxFreqStack {
         // 更新频率
         vf.put(v, freq);
         // 如果最高频率对应的栈是空的，则维护 maxFreq
-        if (fs.get(this.maxFreq).isEmpty()) {
+        if (fs.get(this.maxFreq).empty()) {
             this.maxFreq --;
         }
         return v;

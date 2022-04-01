@@ -2,6 +2,7 @@ package com.zjn.stack;
 
 import java.util.Vector;
 
+// 从栈顶到栈底的元素是严格递增（or递减）
 public class MonotonicStack {
 
     /**
@@ -19,12 +20,12 @@ public class MonotonicStack {
         for (int i = nums.size() - 1; i >= 0; i--) {
 
             // 栈顶元素小于当前元素，则删除栈顶元素，这个值不会用到
-            while(!stack.isEmpty() && stack.top() < nums.get(i)) {
+            while(!stack.empty() && stack.top() < nums.get(i)) {
                 stack.pop();
             }
             // 结果，如果栈是空的，则后面的所有元素都小于该元素，否则获取栈顶元素
             // 栈中的元素从栈顶开始，是从小到大，因为while把所有小于的元素剔除了
-            res.setElementAt(stack.isEmpty() ? -1 : stack.top(), i);
+            res.setElementAt(stack.empty() ? -1 : stack.top(), i);
             stack.push(nums.get(i));
         }
         return res;
@@ -44,12 +45,12 @@ public class MonotonicStack {
         for (int i = nums.size() - 1; i >= 0; i--) {
 
             // 栈顶元素小于当前元素，则删除栈顶元素，这个值不会用到
-            while(!stack.isEmpty() && nums.get(stack.top()) < nums.get(i)) {
+            while(!stack.empty() && nums.get(stack.top()) < nums.get(i)) {
                 stack.pop();
             }
             // 结果，如果栈是空的，则后面的所有元素都小于该元素，否则获取栈顶元素
             // 栈中的元素从栈顶开始，是从小到大，因为while把所有小于的元素剔除了
-            res.setElementAt(stack.isEmpty() ? 0 : stack.top() - i, i);
+            res.setElementAt(stack.empty() ? 0 : stack.top() - i, i);
             stack.push(i);
         }
         return res;
@@ -78,11 +79,11 @@ public class MonotonicStack {
         Stack<Integer> stack = new Stack<>();
         for (int i = 2 * n - 1; i >= 0; i--) {
             // 栈顶元素小于当前元素，则删除栈顶元素，这个值不会用到  索引要求模
-            while (!stack.isEmpty() && stack.top() < nums.get(i % n)) {
+            while (!stack.empty() && stack.top() < nums.get(i % n)) {
                 stack.pop();
             }
 
-            res.setElementAt(stack.isEmpty() ? -1 : stack.top(), i % n);
+            res.setElementAt(stack.empty() ? -1 : stack.top(), i % n);
             stack.push(nums.get(i % n));
 
         }
